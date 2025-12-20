@@ -143,6 +143,12 @@ class LLVMConan(ConanFile):
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
+        # Which projects to enable. Must be semicolon-separated string of
+        # projects that should be enabled. By default none are enabled.
+        # Full list:
+        # "bolt;clang;clang-tools-extra;compiler-rt;cross-project-tests;libc;
+        # libclc;lld;lldb;mlir;openmp;polly"
+        "enable_projects": ["ANY"],
         "components": ["ANY"],
         "targets": ["ANY"],
         "exceptions": [True, False],
@@ -173,6 +179,7 @@ class LLVMConan(ConanFile):
     default_options = {
         "shared": False,
         "fPIC": True,
+        "enable_projects": "none",
         "components": "all",
         "targets": "all",
         "exceptions": True,
@@ -316,10 +323,11 @@ class LLVMConan(ConanFile):
             "LLVM_ENABLE_ZSTD": "FORCE_ON" if self.options.get_safe("with_zstd") else False
         }
 
+        if self.options.enable_projects != "none":
+            cmake_variables["LLVM_ENABLE_PROJECTS"] = self.options.enable_projects
 
         if self.options.targets != "all":
             cmake_variables["LLVM_TARGETS_TO_BUILD"] = self.options.targets
-
 
         if is_msvc(self):
             build_type = str(self.settings.build_type).upper()
