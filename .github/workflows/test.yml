@@ -1,0 +1,23 @@
+name: Test conan recipe
+run-name: test
+on: [push]
+jobs:
+  test-conan-recipe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.9
+
+      - name: Install conan
+        run: pip install conan
+
+      - name: Detect conan profile
+        run: conan profile detect
+
+      - name: Build the recipe
+        run: conan create recipes/llvm/all --version=21.1.8 -o llvm/*
+        
