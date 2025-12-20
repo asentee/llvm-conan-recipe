@@ -173,13 +173,13 @@ class LLVMConan(ConanFile):
             "Address;Undefined",
             "None"
         ],
-        # "with_ffi": [True, False],
-        # "with_libedit": [True, False],
-        # "with_terminfo": [True, False],
-        # "with_zlib": [True, False],
-        # "with_xml2": [True, False],
-        # "with_z3": [True, False],
-        # "with_zstd": [True, False]
+        "with_ffi": [True, False],
+        "with_libedit": [True, False],
+        "with_terminfo": [True, False],
+        "with_zlib": [True, False],
+        "with_xml2": [True, False],
+        "with_z3": [True, False],
+        "with_zstd": [True, False]
     }
     default_options = {
         "shared": False,
@@ -202,6 +202,13 @@ class LLVMConan(ConanFile):
         # "with_z3": True,
         # "with_zlib": True,
         # "with_zstd": True
+        "with_libedit": False,
+        "with_ffi": False,
+        "with_terminfo": False,  # differs from LLVM default
+        "with_xml2": False,
+        "with_z3": False,
+        "with_zlib": False,
+        "with_zstd": False
     }
 
     @property
@@ -321,12 +328,12 @@ class LLVMConan(ConanFile):
             "LLVM_ENABLE_EXPENSIVE_CHECKS": self.options.expensive_checks,
             "LLVM_ENABLE_ASSERTIONS": str(self.settings.build_type),
             "LLVM_USE_PERF": self.options.use_perf,
-            # "LLVM_ENABLE_LIBEDIT": self.options.get_safe("with_libedit", False),
-            # "LLVM_ENABLE_Z3_SOLVER": self.options.with_z3,
-            # "LLVM_ENABLE_FFI": self.options.with_ffi,
-            # "LLVM_ENABLE_ZLIB": "FORCE_ON" if self.options.with_zlib else False,
-            # "LLVM_ENABLE_LIBXML2": "FORCE_ON" if self.options.with_xml2 else False,
-            # "LLVM_ENABLE_ZSTD": "FORCE_ON" if self.options.get_safe("with_zstd") else False
+            "LLVM_ENABLE_LIBEDIT": self.options.get_safe("with_libedit", False),
+            "LLVM_ENABLE_Z3_SOLVER": self.options.with_z3,
+            "LLVM_ENABLE_FFI": self.options.with_ffi,
+            "LLVM_ENABLE_ZLIB": "FORCE_ON" if self.options.with_zlib else False,
+            "LLVM_ENABLE_LIBXML2": "FORCE_ON" if self.options.with_xml2 else False,
+            "LLVM_ENABLE_ZSTD": "FORCE_ON" if self.options.get_safe("with_zstd") else False
         }
 
 
