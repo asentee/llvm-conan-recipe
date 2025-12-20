@@ -165,7 +165,6 @@ class LLVMConan(ConanFile):
         ],
         "with_ffi": [True, False],
         "with_libedit": [True, False],
-        "with_terminfo": [True, False],
         "with_zlib": [True, False],
         "with_xml2": [True, False],
         "with_z3": [True, False],
@@ -187,7 +186,6 @@ class LLVMConan(ConanFile):
         "use_sanitizer": "None",
         "with_libedit": True,
         "with_ffi": False,
-        "with_terminfo": False,  # differs from LLVM default
         "with_xml2": True,
         "with_z3": True,
         "with_zlib": True,
