@@ -1,6 +1,6 @@
 name: Test conan recipe
 run-name: test
-on: [push]
+on: [push, workflow_dispatch]
 jobs:
   test-conan-recipe:
     runs-on: ubuntu-latest
