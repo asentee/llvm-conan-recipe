@@ -287,8 +287,7 @@ class LLVMConan(ConanFile):
 
     @property
     def _all_targets(self):
-        targets = LLVM_TARGETS if Version(self.version) >= 14 else LLVM_TARGETS - {"LoongArch", "VE"}
-        return ";".join(targets)
+        return ";".join(LLVM_TARGETS)
 
     def generate(self):
         tc = CMakeToolchain(self, generator="Ninja")
