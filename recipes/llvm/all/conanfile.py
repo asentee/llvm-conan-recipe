@@ -206,8 +206,8 @@ class LLVMConan(ConanFile):
             "Visual Studio": "16",
         }
 
-    # def export_sources(self):
-    #     export_conandata_patches(self)
+    def export_sources(self):
+        export_conandata_patches(self)
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -352,7 +352,7 @@ class LLVMConan(ConanFile):
         return PurePosixPath(self.build_folder) / "llvm-core.dot"
 
     def build(self):
-        # apply_conandata_patches(self)
+        apply_conandata_patches(self)
         cmake = CMake(self)
         graphviz_args = [f"--graphviz={self._graphviz_file}"]
 

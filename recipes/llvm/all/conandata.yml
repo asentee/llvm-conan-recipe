@@ -2,3 +2,9 @@ sources:
   "21.1.8":
     url: https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.8/llvm-project-21.1.8.src.tar.xz
     sha256: 4633a23617fa31a3ea51242586ea7fb1da7140e426bd62fc164261fe036aa142
+patches:
+  "21.1.8":
+    - patch_file: patches/21x/0000-cmake-dependencies.patch
+      patch_description: fix references to third party libs to match conan variables and targets
+      patch_type: conan
+      base_path: llvm
