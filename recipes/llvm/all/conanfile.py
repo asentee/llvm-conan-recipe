@@ -212,7 +212,7 @@ class LLVMConan(ConanFile):
     def config_options(self):
         if self.settings.os == "Windows":
             del self.options.fPIC
-            # del self.options.with_libedit  # not supported on windows
+            del self.options.with_libedit  # not supported on windows
 
     def configure(self):
         if self.options.shared:
@@ -251,11 +251,11 @@ class LLVMConan(ConanFile):
         if self.options.shared:
             if self.settings.os == "Windows":
                 raise ConanInvalidConfiguration("Shared builds are currently not supported on Windows")
-            # if is_apple_os(self) and self.options.with_xml2 and bool(self.dependencies["libxml2"].options.iconv):
-            #     # FIXME iconv contains duplicate symbols in the libiconv and libcharset libraries (both of which are
-            #     #  provided by libiconv). This may be an issue with how conan packages libiconv
-            #     raise ConanInvalidConfiguration("iconv cannot be linked into the shared LLVM library on macos "
-            #                                         "due to duplicate symbols. Use libxml2/*:iconv=False.")
+            if is_apple_os(self) and self.options.with_xml2 and bool(self.dependencies["libxml2"].options.iconv):
+                # FIXME iconv contains duplicate symbols in the libiconv and libcharset libraries (both of which are
+                #  provided by libiconv). This may be an issue with how conan packages libiconv
+                raise ConanInvalidConfiguration("iconv cannot be linked into the shared LLVM library on macos "
+                                                    "due to duplicate symbols. Use libxml2/*:iconv=False.")
 
         if self.options.exceptions and not self.options.rtti:
             raise ConanInvalidConfiguration("Cannot enable exceptions without rtti support")
