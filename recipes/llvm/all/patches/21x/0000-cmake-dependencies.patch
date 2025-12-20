@@ -1,6 +1,6 @@
-diff --color -ruN ./og/cmake/config-ix.cmake ./mod/cmake/config-ix.cmake
---- ./og/cmake/config-ix.cmake	2025-12-20 20:57:21.863799894 +0600
-+++ ./mod/cmake/config-ix.cmake	2025-12-20 21:01:23.985676097 +0600
+diff --color -ruN ./cmake/config-ix.cmake ./cmake/config-ix.cmake
+--- ./cmake/config-ix.cmake	2025-12-20 20:57:21.863799894 +0600
++++ ./cmake/config-ix.cmake	2025-12-20 21:01:23.985676097 +0600
 @@ -173,7 +173,7 @@
      # library on a 64-bit system which would result in a link-time failure.
      cmake_push_check_state()
@@ -25,9 +25,9 @@ diff --color -ruN ./og/cmake/config-ix.cmake ./mod/cmake/config-ix.cmake
      else()
        set(HAVE_LIBEDIT 0)
      endif()
-diff --color -ruN ./og/lib/LineEditor/CMakeLists.txt ./mod/lib/LineEditor/CMakeLists.txt
---- ./og/lib/LineEditor/CMakeLists.txt	2025-12-20 20:57:12.287583069 +0600
-+++ ./mod/lib/LineEditor/CMakeLists.txt	2025-12-20 21:01:43.539366371 +0600
+diff --color -ruN ./lib/LineEditor/CMakeLists.txt ./lib/LineEditor/CMakeLists.txt
+--- ./lib/LineEditor/CMakeLists.txt	2025-12-20 20:57:12.287583069 +0600
++++ ./lib/LineEditor/CMakeLists.txt	2025-12-20 21:01:43.539366371 +0600
 @@ -1,5 +1,5 @@
  if(HAVE_LIBEDIT)
 -  set(link_libs LibEdit::LibEdit)
@@ -35,9 +35,9 @@ diff --color -ruN ./og/lib/LineEditor/CMakeLists.txt ./mod/lib/LineEditor/CMakeL
  endif()
  
  add_llvm_component_library(LLVMLineEditor
-diff --color -ruN ./og/lib/Support/CMakeLists.txt ./mod/lib/Support/CMakeLists.txt
---- ./og/lib/Support/CMakeLists.txt	2025-12-20 20:57:37.766144259 +0600
-+++ ./mod/lib/Support/CMakeLists.txt	2025-12-20 21:02:59.738720910 +0600
+diff --color -ruN ./lib/Support/CMakeLists.txt ./lib/Support/CMakeLists.txt
+--- ./lib/Support/CMakeLists.txt	2025-12-20 20:57:37.766144259 +0600
++++ ./lib/Support/CMakeLists.txt	2025-12-20 21:02:59.738720910 +0600
 @@ -330,27 +330,13 @@
  # This block is only needed for llvm-config. When we deprecate llvm-config and
  # move to using CMake export, this block can be removed.
@@ -68,9 +68,9 @@ diff --color -ruN ./og/lib/Support/CMakeLists.txt ./mod/lib/Support/CMakeLists.t
    if (zstd_target STREQUAL zstd::libzstd_shared)
      get_library_name(${zstd_library} zstd_library)
      set(llvm_system_libs ${llvm_system_libs} "${zstd_library}")
-diff --color -ruN ./og/lib/WindowsManifest/CMakeLists.txt ./mod/lib/WindowsManifest/CMakeLists.txt
---- ./og/lib/WindowsManifest/CMakeLists.txt	2025-12-20 20:57:56.577527061 +0600
-+++ ./mod/lib/WindowsManifest/CMakeLists.txt	2025-12-20 21:03:45.681819618 +0600
+diff --color -ruN ./lib/WindowsManifest/CMakeLists.txt ./lib/WindowsManifest/CMakeLists.txt
+--- ./lib/WindowsManifest/CMakeLists.txt	2025-12-20 20:57:56.577527061 +0600
++++ ./lib/WindowsManifest/CMakeLists.txt	2025-12-20 21:03:45.681819618 +0600
 @@ -21,14 +21,7 @@
  # This block is only needed for llvm-config. When we deprecate llvm-config and
  # move to using CMake export, this block can be removed.
