@@ -185,20 +185,13 @@ class LLVMConan(ConanFile):
         "expensive_checks": False,
         "use_perf": False,
         "use_sanitizer": "None",
-        # "with_libedit": True,
-        # "with_ffi": False,
-        # "with_terminfo": False,  # differs from LLVM default
-        # "with_xml2": True,
-        # "with_z3": True,
-        # "with_zlib": True,
-        # "with_zstd": True
-        "with_libedit": False,
+        "with_libedit": True,
         "with_ffi": False,
         "with_terminfo": False,  # differs from LLVM default
-        "with_xml2": False,
-        "with_z3": False,
-        "with_zlib": False,
-        "with_zstd": False
+        "with_xml2": True,
+        "with_z3": True,
+        "with_zlib": True,
+        "with_zstd": True
     }
 
     @property
@@ -230,19 +223,19 @@ class LLVMConan(ConanFile):
     def layout(self):
         cmake_layout(self, src_folder="src")
 
-    # def requirements(self):
-    #     if self.options.with_ffi:
-    #         self.requires("libffi/3.4.6")
-    #     if self.options.get_safe("with_libedit"):
-    #         self.requires("editline/3.1")
-    #     if self.options.with_zlib:
-    #         self.requires("zlib/[>=1.2.11 <2]")
-    #     if self.options.with_xml2:
-    #         self.requires("libxml2/[>=2.12.5 <3]")
-    #     if self.options.with_z3:
-    #         self.requires("z3/4.13.0")
-    #     if self.options.get_safe("with_zstd"):
-    #         self.requires("zstd/1.5.6")
+    def requirements(self):
+        if self.options.with_ffi:
+            self.requires("libffi/3.4.6")
+        if self.options.get_safe("with_libedit"):
+            self.requires("editline/3.1")
+        if self.options.with_zlib:
+            self.requires("zlib/[>=1.2.11 <2]")
+        if self.options.with_xml2:
+            self.requires("libxml2/[>=2.12.5 <3]")
+        if self.options.with_z3:
+            self.requires("z3/4.13.0")
+        if self.options.get_safe("with_zstd"):
+            self.requires("zstd/1.5.6")
 
     def build_requirements(self):
         self.tool_requires("ninja/[>=1.10.2 <2]")
