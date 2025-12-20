@@ -74,10 +74,18 @@ def components_from_dotfile(dotfile):
         }
         for row in dot:
             match_label = re.match(r'''^\s*"(node[0-9]+)"\s*\[\s*label\s*=\s*"(.+)".*''', row)
-            if match_label and match_label.group(2) not in ["LibXml2::LibXml2", "ZLIB::ZLIB", "zstd::libzstd_static"]: # temporary fix for testing; will be removed later
+            if match_label:
                 node = match_label.group(1)
                 label = match_label.group(2)
                 yield node, label_replacements.get(label, label)
+
+    # temporary fix for testing; will be removed later
+    def temp_ignored_deps(row):
+        match_label = re.match(r'''^\s*"(node[0-9]+)"\s*\[\s*label\s*=\s*"(.+)".*''', row)
+        if match_label and match_label.group(2) in ["LibXml2::LibXml2", "ZLIB::ZLIB", "zstd::libzstd_static"]:
+            return True
+        else:
+            return False
 
     def node_dependencies(dot):
         """
@@ -88,6 +96,8 @@ def components_from_dotfile(dotfile):
         ]
         labels = {k: v for k, v in node_labels(dot)}
         for row in dot:
+            if temp_ignored_deps(row): # temporary fix for testing; will be removed later
+                continue
             match_dep = re.match(r'''^\s*"(node[0-9]+)"\s*->\s*"(node[0-9]+)".*''', row)
             if match_dep:
                 node_label = labels[match_dep.group(1)]
