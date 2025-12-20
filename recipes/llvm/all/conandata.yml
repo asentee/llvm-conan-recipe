@@ -1,0 +1,4 @@
+sources:
+  "21.1.8":
+    url: https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.8/llvm-project-21.1.8.src.tar.xz
+    sha256: 4633a23617fa31a3ea51242586ea7fb1da7140e426bd62fc164261fe036aa142
