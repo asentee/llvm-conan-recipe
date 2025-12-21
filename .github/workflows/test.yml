@@ -27,8 +27,8 @@ jobs:
 
       - name: Install test conan package
         run: |
-          mkdir conan_cache
-          export CONAN_HOME=./conan_cache
+          mkdir /conan_cache
+          export CONAN_HOME=/conan_cache
           mkdir build
           conan install --requires=zlib/1.3.1 --output-folder=build --build="*"
           tree
