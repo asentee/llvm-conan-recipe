@@ -5,7 +5,10 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/TargetSelect.h>
 #include <llvm/Support/SourceMgr.h>
-#include <clang-c/Index.h>
+
+#ifdef TEST_LIB_CLANG_FOUND
+    #include <clang-c/Index.h>
+#endif
 
 #include <iostream>
 #include <memory>
@@ -37,23 +40,25 @@ int main(int argc, char const* argv[]) {
         llvm::ArrayRef<llvm::GenericValue>()
     );
 
-    // Test libclang
-    auto index = clang_createIndex(0, 0);
-    auto unit = clang_parseTranslationUnit(
-        index,
-        "test_package.cpp",
-        nullptr,
-        0,
-        nullptr,
-        0,
-        CXTranslationUnit_None
-    );
+    #ifdef TEST_LIB_CLANG_FOUND
+        // Test libclang
+        auto index = clang_createIndex(0, 0);
+        auto unit = clang_parseTranslationUnit(
+            index,
+            "test_package.cpp",
+            nullptr,
+            0,
+            nullptr,
+            0,
+            CXTranslationUnit_None
+        );
 
-    if(unit == nullptr) {
-        std::cerr << "Failed to parse translation unit. Quitting...\n";
-        return -1;
-    }
-    auto cursor = clang_getTranslationUnitCursor(unit);
+        if(unit == nullptr) {
+            std::cerr << "Failed to parse translation unit. Quitting...\n";
+            return -1;
+        }
+        auto cursor = clang_getTranslationUnitCursor(unit);
+    #endif
 
     return result.IntVal.getSExtValue();
 }
