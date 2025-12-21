@@ -19,7 +19,7 @@ jobs:
         run: conan profile detect
 
       - name: Set conan cache directory
-        run |
+        run: |
           mkdir conan_cache
           export CONAN_HOME=./conan_cache
 
