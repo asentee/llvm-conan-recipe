@@ -13,7 +13,7 @@ class TestPackageConan(ConanFile):
         cmake_layout(self)
 
     def requirements(self):
-        self.requires(self.tested_reference_str)
+        self.requires(self.tested_reference_str, options={"enable_projects": "clang"})
 
     def build_requirements(self):
         # required for cmake_path support

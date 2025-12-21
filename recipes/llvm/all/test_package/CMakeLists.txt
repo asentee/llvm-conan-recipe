@@ -10,14 +10,15 @@ endmacro()
 
 set(CMAKE_CXX_STANDARD 17)
 add_executable(${PROJECT_NAME} test_package.cpp)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CLANG_INCLUDE_DIRS})
 
 if (LLVM_SHARED)
     find_package(LLVM REQUIRED)
-    target_link_libraries(${PROJECT_NAME} PRIVATE LLVM)
+    target_link_libraries(${PROJECT_NAME} PRIVATE LLVM libclang)
 else()
     find_package(LLVM REQUIRED)
     llvm_map_components_to_libnames(llvm_libs interpreter nativecodegen irreader)
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${llvm_libs})
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${llvm_libs} libclang)
 endif()
 
 message(STATUS "Testing LLVM Build Module Variables")
