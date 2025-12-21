@@ -18,16 +18,26 @@ jobs:
       - name: Detect conan profile
         run: conan profile detect
 
-      - name: Build the recipe
-        # temporarily only target x86 to speed up build process during testing
+      - name: Set conan cache directory
+        run |
+          mkdir conan_cache
+          export CONAN_HOME=./conan_cache
+
+      # - name: Build the recipe
+      #   # temporarily only target x86 to speed up build process during testing
+      #   run: |
+      #     conan create recipes/llvm/all --version=21.1.8 \
+      #       -o llvm/*:targets=X86 \
+            # -o llvm/*:enable_projects="clang"
+
+      - name: Install test conan package
         run: |
-          conan create recipes/llvm/all --version=21.1.8 \
-            -o llvm/*:targets=X86 \
-            -o llvm/*:enable_projects="clang"
+          mkdir build
+          conan install --requires=zlib/1.3.1 --output-folder=build --build="*"
 
       - name: Upload the conan directory for inspection for testing
         uses: actions/upload-artifact@v4
         with:
           name: conan-dir
-          path: /home/runner/.conan2/
+          path: ./conan_cache
           retention-days: 1
