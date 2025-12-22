@@ -3,7 +3,7 @@ llvm/21.1.8
 
 [options]
 llvm/*:targets=X86
-llvm/*:llvm/*:enable_projects="clang"
+llvm/*:enable_projects="clang"
 
 [generators]
 CMakeDeps
