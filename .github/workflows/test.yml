@@ -40,6 +40,8 @@ jobs:
 
       - name: External test for recipe
         run: |
+          sudo apt-get update
+          sudo apt-get install build-essential
           cd test
           mkdir build
           export CONAN_HOME=~/conan_cache
