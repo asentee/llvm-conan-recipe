@@ -28,4 +28,13 @@ jobs:
           conan create recipes/llvm/all --version=21.1.8 \
             -o llvm/*:targets=X86 \
             -o llvm/*:enable_projects="clang"
-          conan graph info --requires="llvm/21.1.8"
+          conan cache clean "*"
+      
+      - name: Cache conan directory
+        uses: actions/cache@v4
+        with:
+          # The directory you want to cache
+          path: ~/conan_cache
+          # A unique key for this cache
+          key: ${{ runner.os }}-node
+
