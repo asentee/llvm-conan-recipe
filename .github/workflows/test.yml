@@ -38,3 +38,13 @@ jobs:
           # A unique key for this cache
           key: ${{ runner.os }}-node
 
+      - name: External test for recipe
+        run: |
+          cd test
+          mkdir build
+          export CONAN_HOME=~/conan_cache
+          conan intall conanfile.txt --output-folder=never --build=missing
+          cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=./build/generators/conan_toolchain.cmake
+          cmake --build build
+          ./build/test
+
