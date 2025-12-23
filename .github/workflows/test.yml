@@ -18,17 +18,17 @@ jobs:
       - name: Detect conan profile
         run: conan profile detect
 
-      - name: Build the recipe
-        # temporarily only target x86 to speed up build process during testing
-        run: |
-          mkdir ~/conan_cache
-          export CONAN_HOME=~/conan_cache
-          conan profile detect
-          mkdir build
-          conan create recipes/llvm/all --version=21.1.8 \
-            -o llvm/*:targets=X86 \
-            -o llvm/*:enable_projects="clang"
-          conan cache clean "*"
+      # - name: Build the recipe
+      #   # temporarily only target x86 to speed up build process during testing
+      #   run: |
+      #     mkdir ~/conan_cache
+      #     export CONAN_HOME=~/conan_cache
+      #     conan profile detect
+      #     mkdir build
+      #     conan create recipes/llvm/all --version=21.1.8 \
+      #       -o llvm/*:targets=X86 \
+      #       -o llvm/*:enable_projects="clang"
+      #     conan cache clean "*"
       
       - name: Cache conan directory
         uses: actions/cache@v4
@@ -38,18 +38,18 @@ jobs:
           # A unique key for this cache
           key: ${{ runner.os }}-node
 
-      # - name: External test for recipe
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install build-essential
-      #     export CMAKE_CXX_COMPILER=g++
-      #     export CMAKE_MAKE_PROGRAM=make
-      #     cd test
-      #     mkdir build
-      #     export CONAN_HOME=~/conan_cache
-      #     conan profile detect
-      #     conan install conanfile.txt --output-folder=build --build=never
-      #     cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=./build/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
-      #     cmake --build build
-      #     ./build/Release/test
+      - name: External test for recipe
+        run: |
+          sudo apt-get update
+          sudo apt-get install build-essential
+          export CMAKE_CXX_COMPILER=g++
+          export CMAKE_MAKE_PROGRAM=make
+          cd test
+          mkdir build
+          export CONAN_HOME=~/conan_cache
+          conan profile detect
+          conan install conanfile.txt --output-folder=build --build=never
+          cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=./build/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+          cmake --build build
+          ./build/Release/test
 
