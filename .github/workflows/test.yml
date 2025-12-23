@@ -49,6 +49,7 @@ jobs:
           export CONAN_HOME=~/conan_cache
           conan profile detect
           conan install conanfile.txt --output-folder=build --build=never
+          cat ./build/conan_toolchain.cmake
           cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=./build/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
           cmake --build build
           ./build/Release/test
