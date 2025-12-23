@@ -4,7 +4,7 @@ project(test LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(LLVM REQUIRED CONFIG)
-include(AddLLVM)
+# include(AddLLVM)
 
 include_directories(${LLVM_INCLUDE_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
