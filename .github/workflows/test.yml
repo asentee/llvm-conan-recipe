@@ -42,13 +42,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install build-essential
-          g++ --version
-          make --version
           cd test
           mkdir build
           export CONAN_HOME=~/conan_cache
           conan install conanfile.txt --output-folder=build --build=never
-          tree
           cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=./build/generators/conan_toolchain.cmake
           cmake --build build
           ./build/test
