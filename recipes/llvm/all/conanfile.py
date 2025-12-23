@@ -483,6 +483,13 @@ class LLVMConan(ConanFile):
                                    )
         self.cpp_info.builddirs.append(self._cmake_module_path)
 
+        # Add the path to CMake module path to the "main" component: LLVM::LLVM
+        # This allows users to include .cmake files from the module directory
+        # without needing anything extra
+        # So the users can do (in their CMakeLists.txt file):
+        # find_package(LLVM REQUIRED)
+        # include(AddLLVM) # For example
+        # # Then use any functions/macros from the included .cmake files
         self.cpp_info.components["LLVM"].builddirs.append(self._cmake_module_path)
 
         if not self.options.shared:
