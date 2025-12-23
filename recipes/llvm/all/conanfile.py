@@ -483,6 +483,8 @@ class LLVMConan(ConanFile):
                                    )
         self.cpp_info.builddirs.append(self._cmake_module_path)
 
+        self.cpp_info.components["LLVM"].builddirs.append(self._cmake_module_path)
+
         if not self.options.shared:
             build_info = self._read_build_info()
             components = build_info["components"]
