@@ -527,7 +527,7 @@ class LLVMConan(ConanFile):
             if LLVM_PROJECTS[proj]["mod_file"] != "":
                 self.cpp_info.components[proj].set_property(
                     "cmake_build_modules",
-                    self._cmake_module_path / proj / LLVM_PROJECTS[proj]["mod_file"]
+                    [self._cmake_module_path / proj / LLVM_PROJECTS[proj]["mod_file"]]
                 )
 
         if not self.options.shared:
