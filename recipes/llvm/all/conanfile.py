@@ -509,33 +509,26 @@ class LLVMConan(ConanFile):
         )
 
     def package_info(self):
-        self.cpp_info.set_property("cmake_file_name", "LLVM")
-
-        cmake_build_modules = [self._build_module_file_rel_path,
-                               self._cmake_llvm_module_path / "LLVM-ConfigInternal.cmake"]
-
-        for proj in self._enabled_projects:
-            if LLVM_PROJECTS[proj]["mod_file"] != "":
-                cmake_build_modules.append(self._cmake_module_path / proj / LLVM_PROJECTS[proj]["mod_file"])
-
-        self.cpp_info.set_property("cmake_build_modules", cmake_build_modules)
-        self.cpp_info.builddirs.append(self._cmake_llvm_module_path)
-
-        # Add the path to CMake module path to the "main" component: LLVM::LLVM
-        # This allows users to include .cmake files from the module directory
-        # without needing anything extra
-        # So the users can do (in their CMakeLists.txt file):
-        # find_package(LLVM REQUIRED)
-        # include(AddLLVM) # For example
-        # # Then use any functions/macros from the included .cmake files
+        # The main LLVM package
+        # Can be included like: find_package(LLVM REQUIRED)
+        self.cpp_info.components["LLVM"].set_property("cmake_file_name", "LLVM")
+        self.cpp_info.components["LLVM"].set_property("cmake_build_modules",
+                                   [self._build_module_file_rel_path,
+                                    self._cmake_llvm_module_path / "LLVM-ConfigInternal.cmake"])
         self.cpp_info.components["LLVM"].builddirs.append(self._cmake_llvm_module_path)
-        # Also add the module path for the enabled projects if it has any.
-        # All of this is added to the LLVM::LLVM since none of the projects are
-        # enabled by default and if a project is explicitly enabled via options,
-        # then the user must have intention to use it.
+
+        # Add CMake module path and build modules for each enabled projects in
+        # their own components that can be called individually
+        # e.g. find_package(Clang REQUIRED)
         for proj in self._enabled_projects:
+            self.cpp_info.components[proj].set_property("cmake_file_name", proj)
             if LLVM_PROJECTS[proj]["has_mod_dir"]:
-                self.cpp_info.components["LLVM"].builddirs.append(self._cmake_module_path / proj)
+                self.cpp_info.components[proj].builddirs.append(self._cmake_module_path / proj)
+            if LLVM_PROJECTS[proj]["mod_file"] != "":
+                self.cpp_info.components[proj].set_property(
+                    "cmake_build_modules",
+                    self._cmake_module_path / proj / LLVM_PROJECTS[proj]["mod_file"]
+                )
 
         if not self.options.shared:
             build_info = self._read_build_info()
