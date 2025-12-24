@@ -306,7 +306,7 @@ class LLVMConan(ConanFile):
 
     @property
     def _enabled_projects(self):
-        return self.options.enable_projects.split(";")
+        return str(self.options.enable_projects).split(";")
 
     def generate(self):
         tc = CMakeToolchain(self, generator="Ninja")
