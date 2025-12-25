@@ -128,6 +128,15 @@ def get_components_from_dotfile(project_name, dotfile):
     components = {}
     dotfile_rows = dotfile.split("\n")
     for node, dependency in node_dependencies(dotfile_rows):
+        # Ignore any node/dependecy if it ends with "-resource-headers"
+        # These are not needed to be worried about by the recipe
+        # Thise should get properly installed by CMake
+        if node.endswith("-resource-headers"):
+            continue
+        if dependency is not None:
+            if dependency.endswith("-resource-headers"):
+                continue
+        
         key = "system_libs" if dependency in system_libs else "requires"
         if not node in components:
             components[node] = { "system_libs": [], "requires": [] }
