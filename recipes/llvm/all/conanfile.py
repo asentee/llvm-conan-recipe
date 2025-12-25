@@ -136,7 +136,7 @@ def get_components_from_dotfile(project_name, dotfile):
         if dependency is not None:
             if dependency.endswith("-resource-headers"):
                 continue
-        
+
         key = "system_libs" if dependency in system_libs else "requires"
         if not node in components:
             components[node] = { "system_libs": [], "requires": [] }
@@ -589,26 +589,16 @@ class LLVMConan(ConanFile):
     def package_info(self):
         # The main LLVM package
         # Can be included like: find_package(LLVM REQUIRED)
-        self.cpp_info.components["LLVM"].set_property("cmake_file_name", "LLVM")
-        self.cpp_info.components["LLVM"].set_property("cmake_target_name", "LLVM::LLVM")
-        self.cpp_info.components["LLVM"].set_property("cmake_build_modules",
+        self.cpp_info.components.set_property("cmake_file_name", "LLVM")
+        self.cpp_info.components.set_property("cmake_build_modules",
                                    [self._build_module_file_rel_path,
                                     self._cmake_llvm_module_path / "LLVM-ConfigInternal.cmake"])
-        self.cpp_info.components["LLVM"].builddirs.append(self._cmake_llvm_module_path)
+        self.cpp_info.components.builddirs.append(self._cmake_llvm_module_path)
 
-        # Add CMake module path and build modules for each enabled projects in
-        # their own components that can be called individually
-        # e.g. find_package(Clang REQUIRED)
+        self.cpp_info.components["LLVM"].builddirs.append(self._cmake_llvm_module_path)
         for proj in self._enabled_projects:
-            self.cpp_info.components[proj].set_property("cmake_file_name", proj)
-            self.cpp_info.components[proj].set_property("cmake_target_name", f"{proj}::{proj}")
             if LLVM_PROJECTS[proj]["has_mod_dir"]:
-                self.cpp_info.components[proj].builddirs.append(self._cmake_module_path / proj)
-            if LLVM_PROJECTS[proj]["mod_file"] != "":
-                self.cpp_info.components[proj].set_property(
-                    "cmake_build_modules",
-                    [self._cmake_module_path / proj / LLVM_PROJECTS[proj]["mod_file"]]
-                )
+                self.cpp_info.components["LLVM"].builddirs.append(self._cmake_module_path / proj)
 
         if not self.options.shared:
             build_info = self._read_build_info()
