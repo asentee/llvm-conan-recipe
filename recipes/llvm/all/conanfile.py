@@ -589,11 +589,11 @@ class LLVMConan(ConanFile):
     def package_info(self):
         # The main LLVM package
         # Can be included like: find_package(LLVM REQUIRED)
-        self.cpp_info.components.set_property("cmake_file_name", "LLVM")
-        self.cpp_info.components.set_property("cmake_build_modules",
+        self.cpp_info.set_property("cmake_file_name", "LLVM")
+        self.cpp_info.set_property("cmake_build_modules",
                                    [self._build_module_file_rel_path,
                                     self._cmake_llvm_module_path / "LLVM-ConfigInternal.cmake"])
-        self.cpp_info.components.builddirs.append(self._cmake_llvm_module_path)
+        self.cpp_info.builddirs.append(self._cmake_llvm_module_path)
 
         self.cpp_info.components["LLVM"].builddirs.append(self._cmake_llvm_module_path)
         for proj in self._enabled_projects:
