@@ -13,3 +13,7 @@ add_definitions(${LLVM_DEFINITIONS})
 add_llvm_executable(test test.cpp)
 llvm_map_components_to_libnames(llvm_libs core)
 target_link_libraries(test PRIVATE ${llvm_libs})
+
+if(LLVM_PROJECT_CLANG_ENABLED)
+    target_link_libraries(test PRIVATE libclang)
+endif()
