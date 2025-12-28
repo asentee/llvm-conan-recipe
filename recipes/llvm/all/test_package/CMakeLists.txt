@@ -9,6 +9,9 @@ macro(test_llvm_cmake_variable VARIABLE)
 endmacro()
 
 set(CMAKE_CXX_STANDARD 17)
+
+find_package(LLVM REQUIRED)
+
 add_executable(${PROJECT_NAME} test_package.cpp)
 
 # if (LLVM_SHARED)
